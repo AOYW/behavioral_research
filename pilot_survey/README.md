@@ -7,7 +7,9 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 **Embedded Data Field**
 
-`${e://Field/MinAmount}` = minimum amount to give on the later date (also the exact amount they can receive on the earlier date)
+`${e://Field/min_amount}` = minimum amount to give on the later date (also the exact amount they can receive on the earlier date)
+
+`${e://Field/MinAmount}` = minimum amount in presentation style with commas
 
 **Loop and Merge Field**
 
