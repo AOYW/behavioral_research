@@ -3,6 +3,8 @@ Code for the intro block.
 Precalculation of dates and start_amount for the titration method
 */
 
+// array to keep all responses from loop
+var ans = [];
 
 Qualtrics.SurveyEngine.addOnload(function()
 {
@@ -126,6 +128,62 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	Qualtrics.SurveyEngine.setEmbeddedData("low_amount", lowAmount);
 	/* add comma for presentation*/
 	Qualtrics.SurveyEngine.setEmbeddedData("NextAmount", nextAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+	/*Place your JavaScript here to run when the page is unloaded*/
+
+});
+
+
+/*
+Code for the titration block.
+Part III. Titration Loop Final Question (e.g. Fifth)
+*/
+
+Qualtrics.SurveyEngine.addOnload(function()
+{
+	/*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+	/*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnPageSubmit(function()
+{
+	var highAmount = parseInt("${e://Field/high_amount}");
+	var lowAmount = parseInt("${e://Field/low_amount}");
+	var nextAmount = parseInt("${e://Field/next_amount}");
+	var choice = this.getChoiceAnswerValue();
+	if (choice == '1') {
+		highAmount = nextAmount;
+		nextAmount = Math.floor((lowAmount + nextAmount)/2);
+	} else if (choice == '2') {
+		lowAmount = nextAmount;
+		nextAmount = Math.floor((highAmount + nextAmount)/2);
+	}
+	
+	/* No need to update embedded data fields*/
+	
+	/* record answers for this loop */
+	var thisRound = {
+		"loop": "${lm://CurrentLoopNumber}",
+		"early": "${lm://Field/1}",
+		"late": "${lm://Field/2}",
+		"min": "${e://Field/min_amount}",
+		"max": "${lm://Field/4}",
+		"high": highAmount.toString(),
+		"low": lowAmount.toString(),
+		"mean": nextAmount.toString(),
+	};
+	// var ans = JSON.parse("${e://Field/surveyResponse}")
+	ans.push(thisRound);
+	Qualtrics.SurveyEngine.setEmbeddedData("surveyResponse", JSON.stringify(ans));
 });
 
 Qualtrics.SurveyEngine.addOnUnload(function()
