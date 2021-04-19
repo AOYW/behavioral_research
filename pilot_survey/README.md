@@ -11,6 +11,8 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${e://Field/MinAmount}` = minimum amount in presentation style with commas
 
+`${e://Field/surveyResponse}` = a stringified array to keep all the responses during loop
+
 **Loop and Merge Field**
 
 `${lm://Field/1}` = earlier date
