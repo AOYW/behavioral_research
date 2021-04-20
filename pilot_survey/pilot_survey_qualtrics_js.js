@@ -2,7 +2,6 @@
 Code for the intro block.
 Precalculation of dates and start_amount for the titration method
 */
-
 // array to keep all responses from loop
 var ans = [];
 
@@ -48,7 +47,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the titration block.
 Part I. Initial Question (e.g. Q52)
 */
-
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
@@ -67,11 +65,11 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	var maxAmount = parseInt("${lm://Field/4}");
 	var startAmount = Math.floor((minAmount + maxAmount)/2)
 	var choice = this.getChoiceAnswerValue();
-	if (choice == '4') { /* yes*/
+	if (choice == '4') {
 		var next_amount = Math.floor((minAmount + startAmount)/2);
 		var high_amount = startAmount;
 		var low_amount = minAmount;
-	} else if (choice == '5') { /* no*/
+	} else if (choice == '5') {
 		var next_amount = Math.floor((maxAmount + startAmount)/2);
 		var high_amount = maxAmount;
 		var low_amount = startAmount;
@@ -82,7 +80,7 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	Qualtrics.SurveyEngine.setEmbeddedData("low_amount", low_amount);
 	/* add comma for presentation*/
 	Qualtrics.SurveyEngine.setEmbeddedData("NextAmount", next_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
+	
 });
 
 Qualtrics.SurveyEngine.addOnUnload(function()
@@ -96,7 +94,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the titration block.
 Part II. Titration Loop Questions (e.g. Q80)
 */
-
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
@@ -141,7 +138,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the titration block.
 Part III. Titration Loop Final Question (e.g. Fifth)
 */
-
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
@@ -181,10 +177,17 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 		"low": lowAmount,
 		"mean": nextAmount,
 	};
-	// var ans = JSON.parse("${e://Field/surveyResponse}")
 	ans.push(thisRound);
-	// Qualtrics.SurveyEngine.setEmbeddedData("responses", JSON.stringify(ans));
-	// console.log(ans);
+	/* for debugging
+	console.log(ans);
+	*/
+	
+	/* allow reminder for 4th 7th, 10th loop */
+	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
+		Qualtrics.SurveyEngine.setEmbeddedData("ReminderText", 'True');
+	} else {
+		Qualtrics.SurveyEngine.setEmbeddedData("ReminderText", 'False');
+	}
 });
 
 Qualtrics.SurveyEngine.addOnUnload(function()
@@ -198,7 +201,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the exit block.
 Save the responses as a stringified array to the embedded data field.
 */
-
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
@@ -208,7 +210,8 @@ Qualtrics.SurveyEngine.addOnload(function()
 Qualtrics.SurveyEngine.addOnReady(function()
 {
 	/*Place your JavaScript here to run when the page is fully displayed*/
-	Qualtrics.SurveyEngine.setEmbeddedData("responses", JSON.stringify(ans));
+	/* record survey response*/
+	Qualtrics.SurveyEngine.setEmbeddedData("surveyResponse", JSON.stringify(ans));
 });
 
 Qualtrics.SurveyEngine.addOnUnload(function()
