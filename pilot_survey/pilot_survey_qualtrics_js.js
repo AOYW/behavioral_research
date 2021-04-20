@@ -184,9 +184,9 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	
 	/* allow reminder for 4th 7th, 10th loop */
 	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
-		Qualtrics.SurveyEngine.setEmbeddedData("ReminderText", 'True');
+		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'True');
 	} else {
-		Qualtrics.SurveyEngine.setEmbeddedData("ReminderText", 'False');
+		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'False');
 	}
 });
 
