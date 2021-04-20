@@ -13,6 +13,8 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${e://Field/surveyResponse}` = a stringified array to keep all the responses during loop
 
+`${e://Field/progressStatement}` = a string acting as boolean for deciding when to show progress statement
+
 **Loop and Merge Field**
 
 `${lm://Field/1}` = earlier date
