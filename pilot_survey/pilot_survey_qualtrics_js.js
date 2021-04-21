@@ -61,18 +61,21 @@ Qualtrics.SurveyEngine.addOnReady(function()
 
 Qualtrics.SurveyEngine.addOnPageSubmit(function()
 {
+	/* get variables from embedded data fields*/
 	var minAmount = parseInt("${e://Field/min_amount}");
 	var maxAmount = parseInt("${lm://Field/4}");
+	/* calculates start amount from min and max*/
 	var startAmount = Math.floor((minAmount + maxAmount)/2)
+	/* get response for this question*/
 	var choice = this.getChoiceAnswerValue();
-	if (choice == '4') {
-		var next_amount = Math.floor((minAmount + startAmount)/2);
-		var high_amount = startAmount;
-		var low_amount = minAmount;
-	} else if (choice == '5') {
-		var next_amount = Math.floor((maxAmount + startAmount)/2);
-		var high_amount = maxAmount;
-		var low_amount = startAmount;
+	if (choice == '4') { // if yes
+		var next_amount = Math.floor((minAmount + startAmount)/2); // next would be average of start and min
+		var high_amount = startAmount; // upper bound is the starting amount
+		var low_amount = minAmount; // lower bound is the min amount
+	} else if (choice == '5') { // if no
+		var next_amount = Math.floor((maxAmount + startAmount)/2); // next would be average of start and max
+		var high_amount = maxAmount; // upper bound is the max amount
+		var low_amount = startAmount; // lower bound is the starting amount
 	}
 	/* save variable for future use*/
 	Qualtrics.SurveyEngine.setEmbeddedData("next_amount", next_amount);
@@ -108,16 +111,18 @@ Qualtrics.SurveyEngine.addOnReady(function()
 
 Qualtrics.SurveyEngine.addOnPageSubmit(function()
 {
+	/* get variables from embedded data fields*/
 	var highAmount = parseInt("${e://Field/high_amount}");
 	var lowAmount = parseInt("${e://Field/low_amount}");
 	var nextAmount = parseInt("${e://Field/next_amount}");
+	/* get response for this question*/
 	var choice = this.getChoiceAnswerValue();
-	if (choice == '1') {
-		highAmount = nextAmount;
-		nextAmount = Math.floor((lowAmount + nextAmount)/2);
-	} else if (choice == '2') {
-		lowAmount = nextAmount;
-		nextAmount = Math.floor((highAmount + nextAmount)/2);
+	if (choice == '1') { // if yes
+		highAmount = nextAmount; // upper bound would be current amount
+		nextAmount = Math.floor((lowAmount + nextAmount)/2); // next amount would be the average
+	} else if (choice == '2') { // if no
+		lowAmount = nextAmount; // lower bound would be current amount
+		nextAmount = Math.floor((highAmount + nextAmount)/2); // next amount would be the average
 	}
 	/* update variable for future use*/
 	Qualtrics.SurveyEngine.setEmbeddedData("next_amount", nextAmount);
@@ -152,16 +157,18 @@ Qualtrics.SurveyEngine.addOnReady(function()
 
 Qualtrics.SurveyEngine.addOnPageSubmit(function()
 {
+	/* get variables from embedded data fields*/
 	var highAmount = parseInt("${e://Field/high_amount}");
 	var lowAmount = parseInt("${e://Field/low_amount}");
 	var nextAmount = parseInt("${e://Field/next_amount}");
+	/* get response for this question*/
 	var choice = this.getChoiceAnswerValue();
-	if (choice == '1') {
-		highAmount = nextAmount;
-		nextAmount = Math.floor((lowAmount + nextAmount)/2);
-	} else if (choice == '2') {
-		lowAmount = nextAmount;
-		nextAmount = Math.floor((highAmount + nextAmount)/2);
+	if (choice == '1') { // if yes
+		highAmount = nextAmount; // upper bound would be current amount
+		nextAmount = Math.floor((lowAmount + nextAmount)/2); // next amount would be the average
+	} else if (choice == '2') { // if no
+		lowAmount = nextAmount; // lower bound would be current amount
+		nextAmount = Math.floor((highAmount + nextAmount)/2); // next amount would be the average
 	}
 	
 	/* No need to update embedded data fields*/
@@ -177,6 +184,7 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 		"low": lowAmount,
 		"mean": nextAmount,
 	};
+	/* adds response of this loop to the array*/
 	ans.push(thisRound);
 	/* for debugging
 	console.log(ans);
