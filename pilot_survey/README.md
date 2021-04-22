@@ -1,4 +1,4 @@
-# Behavioral Pilot Survey 1
+# Pilot Survey 1, Wave 1
 
 This folder contains JavaScript code for the Qualtrics survey deployed in data collection. 
 Note that this code needs to be used in conjunction with the Qualtrics Survey Engine and Qualtrics' embedded data fields.
