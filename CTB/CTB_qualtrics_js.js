@@ -92,8 +92,8 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 		"rate": rate,
 		"annual": rate_annual,
 		"total": "${e://Field/totalAmount}",
-		"amountEarly": jQuery('#' + QID + " .InputText:eq(0)").val(),
-		"amountLate": jQuery('#' + QID + " .InputText:eq(1)").val(),
+		"amountEarly": jQuery('#' + this.questionId + " .InputText:eq(0)").val(),
+		"amountLate": jQuery('#' + this.questionId + " .InputText:eq(1)").val(),
 	};
 	/* adds response of this loop to the array*/
 	ans.push(thisRound);
