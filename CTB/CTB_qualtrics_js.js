@@ -28,6 +28,10 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the CTB block.
 NOTE: the code needs modification for different questions.
 */
+/* variables specific to different questions in the loop (Needs to be changed)*/
+var rate = "$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }";
+var rate_annual = "${lm://Field/5}";
+
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
@@ -71,7 +75,6 @@ Qualtrics.SurveyEngine.addOnReady(function()
 		};
 		
 		/* calculates the amount received later and fill in to second box */
-		var rate = "$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }";
 		var later = Math.round((total - val) * rate);
 		jQuery('#' + QID + " .InputText:eq(1)").val(later.toString());
 		
@@ -80,27 +83,28 @@ Qualtrics.SurveyEngine.addOnReady(function()
 
 Qualtrics.SurveyEngine.addOnPageSubmit(function()
 {
-	/* record answers for this question*/
+	/* record answers for this loop*/
 	var thisRound = {
 		"loop": "${lm://CurrentLoopNumber}",
 		"question": this.questionId,
 		"early": "${lm://Field/3}",
 		"late": "${lm://Field/4}",
-		"rate": "$e{ round ( ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) , 2 ) }", // needs to be modified for every question
-		"annual": "${lm://Field/5}", // needs to be modified for every question
+		"rate": rate,
+		"annual": rate_annual,
 		"total": "${e://Field/totalAmount}",
 		"amountEarly": jQuery('#' + QID + " .InputText:eq(0)").val(),
 		"amountLate": jQuery('#' + QID + " .InputText:eq(1)").val(),
 	};
 	/* adds response of this loop to the array*/
 	ans.push(thisRound);
-  
-  /* allow reminder for 4th 7th, 10th loop (Only add it for the last question in the loop) */
+	
+	/* allow reminder for 4th 7th, 10th loop (Only add it for the last question in the loop) */
 	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
 		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'True');
 	} else {
 		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'False');
-	}
+	};
+	
 })
 
 Qualtrics.SurveyEngine.addOnUnload(function()
