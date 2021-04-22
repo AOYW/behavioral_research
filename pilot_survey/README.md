@@ -7,7 +7,7 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 **Embedded Data Field**
 
-`${e://Field/min_amount}` = minimum amount to give on the later date (also the exact amount they can receive on the earlier date)
+`${e://Field/min_amount}` = minimum amount to receive on the later date (also the exact amount they can receive on the earlier date)
 
 `${e://Field/MinAmount}` = minimum amount in presentation style with commas
 
@@ -25,3 +25,22 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${lm://Field/4}` = maximum amount to be given on the later date (raw number to be parsed into integer in code)
 
+## Survey Response
+
+The survey responses are collected as an embedded data in `${e://Field/surveyResponse}` in the form of a stringified array of dict. Each dict contains the following keys.
+
+`loop`: Number of loop the response was from (in random order)
+
+`early`: the earlier date
+
+`late`: the later date
+
+`min`: minimum amount to receive on the later date
+
+`max`: maximum amount to receive on the later date
+
+`high`: the upper bound of which the respondent is willing to receive the money on the later date
+
+`low`: the lower bound of which the respondent is willing to receive the money on the later date
+
+`mean`: average of the upper and lower bound
