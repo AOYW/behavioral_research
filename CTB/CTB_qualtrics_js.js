@@ -29,7 +29,7 @@ Code for the CTB block.
 NOTE: the code needs modification for different questions.
 */
 /* variables specific to different questions in the loop (Needs to be changed)*/
-var rate = "$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }";
+var rate = parseFloat("$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }");
 var rate_annual = "${lm://Field/5}";
 
 Qualtrics.SurveyEngine.addOnload(function()
@@ -89,7 +89,7 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 		"question": this.questionId,
 		"early": "${lm://Field/3}",
 		"late": "${lm://Field/4}",
-		"rate": rate,
+		"rate": rate.toFixed(2),
 		"annual": rate_annual,
 		"total": "${e://Field/totalAmount}",
 		"amountEarly": jQuery('#' + this.questionId + " .InputText:eq(0)").val(),
