@@ -1,5 +1,7 @@
 # Convex Time Budget (CTB) Survey
 
+This survey asks respondents to allocate a given amount of money between an earlier date and a later date when presented with various interest rates and time periods.
+
 This folder contains JavaScript code for the Qualtrics survey deployed in data collection. 
 Note that this code needs to be used in conjunction with the Qualtrics Survey Engine and Qualtrics' embedded data fields.
 
