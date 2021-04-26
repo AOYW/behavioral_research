@@ -28,15 +28,22 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 Code for the CTB block.
 NOTE: the code needs modification for different questions.
 */
-/* variables specific to different questions in the loop (Needs to be changed)*/
+/* variables common to all questions in a loop*/
+var textAfterEarly = '  dollars <b>${lm://Field/1}</b>'
+var textAfterLate = '  dollars <b>${lm://Field/2}</b>'
+/* variables specific to each question in a loop*/
 var rate = parseFloat("$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }");
 var rate_annual = "${lm://Field/5}";
 
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
-	/* make second entry box read only*/
+	/* make second entry box read only */
 	jQuery("#"+this.questionId+" .InputText:eq(1)").prop("readonly", true);
+	
+	/* add text after the entry box */
+	jQuery("#"+this.questionId+" .InputText:eq(0)").after(textAfterEarly);
+	jQuery("#"+this.questionId+" .InputText:eq(1)").after(textAfterLate);
 });
 
 Qualtrics.SurveyEngine.addOnReady(function()
@@ -97,14 +104,6 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	};
 	/* adds response of this loop to the array*/
 	ans.push(thisRound);
-	
-	/* allow reminder for 4th 7th, 10th loop (Only add it for the last question in the loop) */
-	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
-		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'True');
-	} else {
-		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'False');
-	};
-	
 })
 
 Qualtrics.SurveyEngine.addOnUnload(function()
