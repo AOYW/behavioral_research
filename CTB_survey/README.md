@@ -23,9 +23,9 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${lm://Field/2}` = later date in words (e.g. 1 year from now, 2 years from now)
 
-`${lm://Field/3}` = earlier date in number (e.g. 0, 1, ...)
+`${lm://Field/3}` = earlier date in number of years (e.g. 0, 1, ...)
 
-`${lm://Field/4}` = later date in number (e.g. 0, 1, ...)
+`${lm://Field/4}` = later date in number of years (e.g. 0, 1, ...)
 
 `${lm://Field/5}` to `${lm://Field/9}` = annual interest rates of question 1 through 5
 
