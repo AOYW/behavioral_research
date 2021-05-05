@@ -29,8 +29,8 @@ Code for the CTB block.
 NOTE: the code needs modification for different questions.
 */
 /* variables common to all questions in a loop*/
-var textAfterEarly = '  dollars <b>${lm://Field/1}</b>'
-var textAfterLate = '  dollars <b>${lm://Field/2}</b>'
+var textAfterEarly = '<b>${lm://Field/1}</b>'
+var textAfterLate = '<b>${lm://Field/2}</b>'
 /* variables specific to each question in a loop*/
 var rate = parseFloat("$e{ ( 1 + lm://Field/5 ) ^ ( lm://Field/4 - lm://Field/3 ) }");
 var rate_annual = "${lm://Field/5}";
@@ -38,12 +38,23 @@ var rate_annual = "${lm://Field/5}";
 Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
+	/* change the question text here */
+	var qText = 'First, imagine that for every dollar you choose to <strong>NOT</strong> receive \
+	<strong>${lm://Field/1}</strong> you will receive <strong>$' + rate.toFixed(2) + ' ${lm://Field/2}</strong>.';
+	jQuery("#"+this.questionId+" .QuestionText").html(qText);
+	
 	/* make second entry box read only */
 	jQuery("#"+this.questionId+" .InputText:eq(1)").prop("readonly", true);
 	
 	/* add text after the entry box */
-	jQuery("#"+this.questionId+" .InputText:eq(0)").after(textAfterEarly);
-	jQuery("#"+this.questionId+" .InputText:eq(1)").after(textAfterLate);
+	jQuery("tr:eq(0)").append("<td>" + textAfterEarly + "</td><td></td>");
+	jQuery("tr:eq(1)").append("<td>" + textAfterLate + "</td>");
+	jQuery("#"+this.questionId+" .InputText").each(function(){
+		this.before('$');
+	});
+	
+	/* flatten the table into one column*/
+	jQuery('table').find('td').unwrap().wrap(jQuery('<tr/>'));
 });
 
 Qualtrics.SurveyEngine.addOnReady(function()
@@ -56,7 +67,7 @@ Qualtrics.SurveyEngine.addOnReady(function()
 	var QID = this.questionId
 	
 	/* limit the first text entry to numbers, min at 0, and max at totalAmount */
-	jQuery("#" + QID + " .InputText:eq(0)").attr({'type': 'number', 'min': '0', 'max': "${e://Field/totalAmount}"});
+	//jQuery("#" + QID + " .InputText:eq(0)").attr({'type': 'number', 'min': '0', 'max': "${e://Field/totalAmount}"});
 	
 	/* jQuery event handler that calculates the amount of money received later and fills in */
 	jQuery("#" + QID + " .InputText:first").on('keyup click', function() {
@@ -70,7 +81,7 @@ Qualtrics.SurveyEngine.addOnReady(function()
 			val = parseInt(val);
 		} else { // if no number or other characters
 			val = 0;
-			jQuery("#" + QID + " .InputText:eq(0)").val("0");
+			//jQuery("#" + QID + " .InputText:eq(0)").val("0");
 		};
 		
 		if (event.which != 8 && isNaN(String.fromCharCode(event.which))) { // do not allow special chars
@@ -104,6 +115,17 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	};
 	/* adds response of this loop to the array*/
 	ans.push(thisRound);
+	
+	/* allow reminder for 4th 7th, 10th loop (Only add it for the last question in the loop) */
+	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
+		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'True');
+	} else {
+		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'False');
+	};
+	
+	console.log("${lm://CurrentLoopNumber}");
+	console.log("${e://Field/progressStatement}");
+	console.log(ans);
 })
 
 Qualtrics.SurveyEngine.addOnUnload(function()
