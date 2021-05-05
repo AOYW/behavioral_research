@@ -11,7 +11,7 @@ Qualtrics.SurveyEngine.addOnload(function()
 	/* size of the graphic and style parameters */
 	var height = 300;
 	var width = 800;
-	var margin = 60; // left right margin
+	var margin = 10; // left right margin
 	var maxAge = 85;
 	var labelSize = 16; // font-size of labels
 	
@@ -59,55 +59,61 @@ Qualtrics.SurveyEngine.addOnload(function()
 		.attr('dominant-baseline', 'middle')
 		.text("Age");
 	
+	/*
 	svg.append("text")
 		.attr("text-anchor", "start")
 		.attr("x", 0)
 		.attr("y", height/2)
 		.attr('dominant-baseline', 'middle')
 		.text("Now");
+	*/
 	
 	function renderPoint(time, text, isLate) {
 		/* find x coordinates of the time point*/
 		var xAge = ages(currentAge + time);
 		var xYear = years(Date.now() + time * 365.24 * 24 * 60 * 60 * 1000);
-		/* add additional text to display */
-		text += "\nIt is the year " + (parseInt(new Date().getFullYear()) + time);
-		text += "\nand you are " + (currentAge + time) + " years old ";
+
 		/* define the color to use */
 		var color = (isLate === true) ? '#80b1d3' : '#fb8072';
 		var yStart = (isLate === true) ? (height/2 - 10) : (height/2 + 10);
 		var yEnd= (isLate === true) ? height - 80 : 80;
-		
-		if (isLate === false && text != 'now') {
-			/* draw a line at the now if the early period is not now */
+
+		/* if the early period is not now, label now */
+		if (isLate == false && text != "now") {
+			/* draw a line at now */
 			svg.append("line")
-				.style('stroke', color)
-				.attr('stroke-width', '3')
-				.attr("x1", xYear)
+				.style('stroke', 'black')
+				.style("stroke-dasharray", ("5, 5"))
+				.attr('stroke-width', '2')
+				.attr("x1", years(Date.now()))
 				.attr("y1", yStart)
-				.attr("x2", xAge)
+				.attr("x2", ages(currentAge))
 				.attr("y2", yEnd)
 			
 			/* label now*/
 			svg.append("text")
-				.attr("x", xAge)
-				.attr("y", 80)
+				.attr("x", xAge - 10)
+				.attr("y", 75)
 				.attr("text-anchor", "end")
 				.attr('dominant-baseline', 'middle')
 				.style("font-size", labelSize + 'px')
-				.style('fill', 'black')
+				.style('fill', "black")
 				.text('Now')
 		}
 		
 		/* draw a line at the point */
 		svg.append("line")
-			.style('stroke', 'black')
-			.attr('stroke-width', '3')
-			.attr("x1", years(Date.now()))
+			.style('stroke', color)
+			.style("stroke-dasharray", ("5, 5"))
+			.attr('stroke-width', '2')
+			.attr("x1", xYear)
 			.attr("y1", yStart)
-			.attr("x2", ages(currentAge))
+			.attr("x2", xAge)
 			.attr("y2", yEnd)
 		
+		/* add additional text to display */
+		text += "\nIt is the year " + (parseInt(new Date().getFullYear()) + time);
+		text += "\nand you are " + (currentAge + time) + " years old ";
 		/* label timepoints with multiline text */
 		var texts = (isLate === true) ? text.split('\n') : text.split('\n').reverse();
 		var y = (isLate === true) ? height - 75 : 75;
