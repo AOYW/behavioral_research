@@ -5,6 +5,10 @@ Qualtrics.SurveyEngine.addOnload(function()
 {
 	/*Place your JavaScript here to run when the page loads*/
 	
+	/* hide the page and disable next button */
+	jQuery('body').hide();
+	this.disableNextButton();
+	
 	/* variable to be captured from survey */
 	var currentAge = parseInt("${e://Field/currentAge}") || 21;
 	
@@ -68,7 +72,7 @@ Qualtrics.SurveyEngine.addOnload(function()
 		.text("Now");
 	*/
 	
-	function renderPoint(time, text, isLate) {
+	function renderPoint(time, text, isLate) {		
 		/* find x coordinates of the time point*/
 		var xAge = ages(currentAge + time);
 		var xYear = years(Date.now() + time * 365.24 * 24 * 60 * 60 * 1000);
@@ -137,7 +141,14 @@ Qualtrics.SurveyEngine.addOnload(function()
 Qualtrics.SurveyEngine.addOnReady(function()
 {
 	/*Place your JavaScript here to run when the page is fully displayed*/
-
+	
+	/* fade in to show the question body when the graphic is ready */ 
+	var that = this
+	jQuery("#res svg").ready(function() {
+		jQuery('body').fadeIn(1000);
+		that.enableNextButton();
+	});
+	
 });
 
 Qualtrics.SurveyEngine.addOnUnload(function()
@@ -145,7 +156,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
 	/*Place your JavaScript here to run when the page is unloaded*/
 
 });
-
 
 /*
 Code for generating the timeline graphic style 2 using timeline (https://github.com/squarechip/timeline)
