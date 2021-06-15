@@ -50,3 +50,7 @@ The survey responses are collected as an embedded data in `${e://Field/surveyRes
 `amountEarly`: the amount allocated to earlier date
 
 `amountLate`: the amount allocated to later date
+
+`presentIncome`: the amount of income the respondent currently earns
+
+`futureIncome`: the amount of income the respondent expects to earn in the later period
