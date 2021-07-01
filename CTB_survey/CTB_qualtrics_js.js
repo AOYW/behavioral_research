@@ -1,6 +1,6 @@
 /*
 Code for the intro block.
-Precalculation of dates and start_amount for the titration method
+Initiates the list to put all the answers
 */
 /* array to keep all responses from loop*/
 var ans = [];
@@ -14,6 +14,43 @@ Qualtrics.SurveyEngine.addOnload(function()
 Qualtrics.SurveyEngine.addOnReady(function()
 {
 	/*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnUnload(function()
+{
+	/*Place your JavaScript here to run when the page is unloaded*/
+
+});
+
+
+/*
+Code for the intro block.
+Stores the current income entered and calculates the future income with a 20% raise
+*/
+Qualtrics.SurveyEngine.addOnload(function()
+{
+	/*Place your JavaScript here to run when the page loads*/
+
+});
+
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+	/*Place your JavaScript here to run when the page is fully displayed*/
+
+});
+
+Qualtrics.SurveyEngine.addOnPageSubmit(function()
+{
+	/*Place your JavaScript here to run when the page is fully displayed*/
+	// Get the answer
+	var presentInc = jQuery('#' + this.questionId + " .InputText").val();
+	var futureInc = Math.round(presentInc * 1.2);
+	// Store futureIncome for use
+	Qualtrics.SurveyEngine.setEmbeddedData("futureIncome", futureInc);
+	// Add comma to income for presentation
+	Qualtrics.SurveyEngine.setEmbeddedData("FutureIncome", futureInc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	Qualtrics.SurveyEngine.setEmbeddedData("PresentIncome", presentInc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
 });
 
@@ -116,15 +153,14 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function()
 	/* adds response of this loop to the array*/
 	ans.push(thisRound);
 	
-	/* allow reminder for 4th 7th, 10th loop (Only add it for the last question in the loop) */
-	if ([4, 7, 10].includes(parseInt("${lm://CurrentLoopNumber}") + 1)) {
-		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'True');
+	/* allow bogus questions for 3rd loop */
+	if ((parseInt("${lm://CurrentLoopNumber}") + 1) == 3) {
+		Qualtrics.SurveyEngine.setEmbeddedData("bogus", 'True');
 	} else {
-		Qualtrics.SurveyEngine.setEmbeddedData("progressStatement", 'False');
-	};
+		Qualtrics.SurveyEngine.setEmbeddedData("bogus", 'False');
+	}
 	
 	console.log("${lm://CurrentLoopNumber}");
-	console.log("${e://Field/progressStatement}");
 	console.log(ans);
 })
 
