@@ -17,6 +17,10 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${e://Field/progressStatement}` = a string acting as boolean for deciding when to show progress statement
 
+`${e://Field/Treatment}` = a randomizer for treatment (1) vs control (0)
+
+`${e://Field/CTBFirst}` = a randomizer for order of the survey, CTB comes first (1) vs Titration comes first (0)
+
 **Loop and Merge Field**
 
 `${lm://Field/1}` = earlier date in words (e.g. now, 1 year from now)
