@@ -7,9 +7,9 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 ## Usage
 
-**Embedded Data Field**
+### Embedded Data Field
 
-Explicit (Stated in survey flow)
+#### Explicit (Stated in survey flow)
 
 `${e://Field/totalAmount}` = total amount given to the respondent for allocation
 
@@ -43,7 +43,7 @@ Explicit (Stated in survey flow)
 
 `${e://Field/hasEntered}` = a boolean indicating income for 1 year from now has been entered in the previous loop, skips the same question if so
 
-Implicit (Used in code but not in survey flow)
+#### Implicit (Used in code but not in survey flow)
 
 `${e://Field/PresentIncome}` = the amount of income the respondent currently earns (Added comma for presentation in survey)
 
@@ -55,7 +55,7 @@ Implicit (Used in code but not in survey flow)
 
 `${e://Field/FutureIncome}` = the amount of income the respondent expects to earn in the later period (Added comma for presentation in survey)
 
-**Loop and Merge Field**
+### Loop and Merge Field
 
 CTB Block
 
