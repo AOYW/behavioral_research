@@ -23,11 +23,11 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${e://Field/presentIncome}` = the amount of income the respondent currently earns
 
-`${e://Field/bogus}` = a boolean for controlling bogus question appearance in the current loop (Titration)
+`${e://Field/bogus}` = a boolean for controlling bogus question appearance in the current loop (CTB)
 
-`${e://Field/bogus1}` = a boolean for controlling bogus1 appearance in the current loop (CTB)
+`${e://Field/bogus1}` = a boolean for controlling bogus1 appearance in the current loop (Titration)
 
-`${e://Field/bogus2}` = a boolean for controlling bogus2 appearance in the current loop (CTB)
+`${e://Field/bogus2}` = a boolean for controlling bogus2 appearance in the current loop (Titration)
 
 `${e://Field/min_amount}` = minimum amount to receive on the later date (also the exact amount they can receive on the earlier date)
 
@@ -39,9 +39,13 @@ Note that this code needs to be used in conjunction with the Qualtrics Survey En
 
 `${e://Field/CTBFirst}` = a randomizer for order of the survey, CTB comes first (1) vs Titration comes first (0)
 
+`${e://Field/CTBSingle}` = a randomizer for CTB version of the survey, all CTB questions on single page(1) vs on separate pages (0)
+
 `${e://Field/earlyIsNow}` = a boolean indicating early period is now (T)/in the furture (F), for controlling whether certain questions show up
 
 `${e://Field/hasEntered}` = a boolean indicating income for 1 year from now has been entered in the previous loop, skips the same question if so
+
+`${e://Field/hasEnteredNow}` = a boolean indicating current income has been entered in the previous loop, skips the same question if so
 
 #### Implicit (Used in code but not in survey flow)
 
